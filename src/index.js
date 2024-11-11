@@ -1,6 +1,7 @@
 import connectDB from "./db/db.js";
 import { app } from "./app.js";
 import dotenv from 'dotenv';
+import path from 'path';
 import { WebSocketServer, WebSocket } from 'ws';
 import Message from "../Model/message.model.js";
 import { GroupChat } from "../Model/groupChat.model.js";
@@ -10,8 +11,24 @@ connectDB();
 const port = process.env.PORT || 10000;
  const host = '0.0.0.0';
  const server = app.listen(port, host, () => {
+  
   console.log(`Server running on http://${host}:${port}`);
 });
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+// Handle the root route
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
+// If you're serving a frontend, make sure to serve the index.html (React app, etc.)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+
 
 const wsServer = new WebSocketServer({ server });
 const userSockets = new Map(); // Map userId -> WebSocket connection
