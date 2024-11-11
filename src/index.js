@@ -16,7 +16,7 @@ const port = process.env.PORT || 10000;
   console.log(`Server running on http://${host}:${port}`);
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Handle the root route
@@ -25,9 +25,9 @@ app.get('/', (req, res) => {
 });
 
 // If you're serving a frontend, make sure to serve the index.html (React app, etc.)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// });
 
 
 
