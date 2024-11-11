@@ -1,5 +1,6 @@
 import connectDB from "./db/db.js";
 import { app } from "./app.js";
+import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import { WebSocketServer, WebSocket } from 'ws';
