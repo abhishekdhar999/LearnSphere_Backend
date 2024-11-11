@@ -7,9 +7,10 @@ import { GroupChat } from "../Model/groupChat.model.js";
 dotenv.config();
 connectDB();
 
-const port = process.env.PORT;
-const server = app.listen(port, () => {
-  console.log("server is running on port", port);
+const port = process.env.PORT || 10000;
+ const host = '0.0.0.0';
+ const server = app.listen(port, host, () => {
+  console.log(`Server running on http://${host}:${port}`);
 });
 
 const wsServer = new WebSocketServer({ server });
