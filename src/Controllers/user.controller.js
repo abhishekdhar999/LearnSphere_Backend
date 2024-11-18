@@ -684,7 +684,29 @@ const getReviewsById = asyncHandler(async(req,res)=>{
                 
 })
 
-  export { registerUser ,loginUser,logoutUser,refreshAccessToken,getUserChannelProfile,getWatchHistory,getAllUsersWhoseRoleIsTeacher,getCurrentUser,editUserProfile,findByLocation,submitRating,getRatingOfTeacher,allUsers,submitreview,getReviewsById};
+const findUserById = asyncHandler(async(req,res)=>{
+
+    res.send("hello there")
+    // const {id} = req.params
+    // console.log("id in find by id",id)
+    // const user = await User.findById("6730b29abac5cb1c8aff557a");
+    // if(!user){
+    //     console.log("not usr")
+    //     return res
+    //     .status(200)
+    //     .json(
+    //         new ApiResponse(
+    //             200,
+    //             null,
+    //             "user not found"
+    //             )
+    //             )
+    //             }
+    //             res.status(200).json(user);
+
+})
+
+  export { registerUser ,loginUser,logoutUser,refreshAccessToken,getUserChannelProfile,getWatchHistory,getAllUsersWhoseRoleIsTeacher,getCurrentUser,editUserProfile,findByLocation,submitRating,getRatingOfTeacher,allUsers,submitreview,getReviewsById,findUserById};
 
 
   //     [
