@@ -12,25 +12,7 @@ import skillsRoutes from '../Routes/skillsRoutes.js'
 import communityRoutes from '../Routes/communityRoutes.js'
 const app = express();
 
-const allowedOrigins = [
-    "https://learn-sphere-frontend.vercel.app", // Add other front-end URLs if needed
-  ];
-  
-  const corsOptions = {
-    origin: (origin, callback) => {
-      if (allowedOrigins.includes(origin) || !origin) {
-        // Allow requests from the allowed origins or from localhost (no origin)
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE"], // Methods you want to allow
-    credentials: true, // Allows cookies to be sent
-  };
-  
-  // Apply the CORS middleware globally
-  app.use(cors(corsOptions));
+ 
 app.use(cors());
 app.use(express.json({limit:"16kb"}))
 app.use(cookieParser());
