@@ -4,6 +4,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import { WebSocketServer, WebSocket } from 'ws';
+import cors from 'cors'
 import http from 'http'
 import Message from "../Model/message.model.js";
 import { GroupChat } from "../Model/groupChat.model.js";
@@ -12,20 +13,20 @@ connectDB();
 import {Server} from "socket.io"
 
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
 
 const port = process.env.PORT || 10000;
  const host = '0.0.0.0';
-  app.listen(port, host, () => {
+const server =   app.listen(port, host, () => {
   console.log(`Server running on http://${host}:${port}`);
 });
 //  console.log("server",server)
 const io = new Server(server, {
   cors:{
     origin: "*",
-    methods: ["GET", "POST"]
-    
+    methods: ["GET", "POST"],
+    credentials:true
   }
   // cors: {
   //   origin: "https://learn-sphere-frontend.vercel.app", // Allow frontend domain
