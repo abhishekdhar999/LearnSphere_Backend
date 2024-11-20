@@ -2,6 +2,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 // routes
+import cors from 'cors'
 import authRoutes from '../Routes/authRoutes.js';
 import videoRoutes from '../Routes/videoRoutes.js'
 
@@ -13,7 +14,11 @@ import communityRoutes from '../Routes/communityRoutes.js'
 const app = express();
 
  
-app.use(cors());
+app.use(cors(
+    {
+        origin: ['https://learn-sphere-frontend-9omx4f33z-abhishek-dhars-projects.vercel.app/','http://localhost:3000', 'http://localhost:3001'],
+    }
+));
 app.use(express.json({limit:"16kb"}))
 app.use(cookieParser());
 app.use(express.urlencoded({extended: true, limit: "16kb"}))
@@ -22,7 +27,7 @@ app.use(express.static('public'));
 
 
 
-// routes
+
 
 
  app.use("/users",authRoutes);
