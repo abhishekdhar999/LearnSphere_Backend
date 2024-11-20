@@ -22,11 +22,16 @@ const port = process.env.PORT || 10000;
 });
 //  console.log("server",server)
 const io = new Server(server, {
-  cors: {
-    origin: "https://learn-sphere-frontend.vercel.app", // Allow frontend domain
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
+  cors:{
+    origin: "*",
+    methods: ["GET", "POST"]
+    
+  }
+  // cors: {
+  //   origin: "https://learn-sphere-frontend.vercel.app", // Allow frontend domain
+  //   // methods: ["GET", "POST"],
+  //   credentials: true,
+  // },
 });
 // app.use(express.static(path.join(__dirname, 'public')));
 
@@ -93,7 +98,7 @@ app.get('/', (req, res) => {
 //     console.error("Socket error:", err);
 //   });
 // });
-
+250311023590
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
 
