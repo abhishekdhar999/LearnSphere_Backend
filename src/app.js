@@ -1,8 +1,6 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
-// routes
-import cors from 'cors'
 import authRoutes from '../Routes/authRoutes.js';
 import videoRoutes from '../Routes/videoRoutes.js'
 
