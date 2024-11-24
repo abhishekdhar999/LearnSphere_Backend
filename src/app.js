@@ -14,9 +14,10 @@ const app = express();
  
 app.use(cors(
     {
-        origin: ['https://learn-sphere-frontend-9omx4f33z-abhishek-dhars-projects.vercel.app/','http://localhost:3000', 'http://localhost:3001'],
+        origin: ['https://learn-sphere-frontend-9omx4f33z-abhishek-dhars-projects.vercel.app/','http://localhost:3000', 'http://localhost:3001',"https://learnsphere-backend-4.onrender.com","https://learn-sphere-frontend-9omx4f33z-abhishek-dhars-projects.vercel.app/","https://learn-sphere-frontend.vercel.app/"],
     }
 ));
+
 app.use(express.json({limit:"16kb"}))
 app.use(cookieParser());
 app.use(express.urlencoded({extended: true, limit: "16kb"}))
