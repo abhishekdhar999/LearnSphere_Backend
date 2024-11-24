@@ -21,19 +21,14 @@ const port = process.env.PORT || 10000;
 const server =   app.listen(port, () => {
   console.log(`Server running on :${port}`);
 });
-//  console.log("server",server)
-// const io = new Server(server, {
-//   cors:{
-//     origin: "*",
-//     methods: ["GET", "POST"],
-//     credentials:true
-//   }
-//   // cors: {
-//   //   origin: "https://learn-sphere-frontend.vercel.app", // Allow frontend domain
-//   //   // methods: ["GET", "POST"],
-//   //   credentials: true,
-//   // },
-// });
+ console.log("server",server)
+const io = new Server(server, {
+  cors: {
+    origin: 'https://learn-sphere-frontend-9omx4f33z-abhishek-dhars-projects.vercel.app', // Allow frontend domain
+     methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
 // // app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -100,94 +95,94 @@ const server =   app.listen(port, () => {
 // //   });
 // // });
 // 250311023590
-// io.on('connection', (socket) => {
-//   console.log('A user connected:', socket.id);
+io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
 
-//   // Listen for messages
-//   socket.on('sendMessage',async (message) => {
-//     console.log('Message received:', message);
-//      const messageString = message.toString();
-//     const parsedData = JSON.parse(messageString); 
-//     const { chatId, sender, content, isGroupChat, type, sdp, candidate, communityId } = parsedData;
+  // Listen for messages
+  socket.on('sendMessage',async (message) => {
+    console.log('Message received:', message);
+     const messageString = message.toString();
+    const parsedData = JSON.parse(messageString); 
+    const { chatId, sender, content, isGroupChat, type, sdp, candidate, communityId } = parsedData;
 
-//     const newMessage = new Message({ chatId, sender, content });
-//     await newMessage.save();
+    const newMessage = new Message({ chatId, sender, content });
+    await newMessage.save();
 
-//     // Broadcast message in group or direct chat
-//     if (isGroupChat) {
-//       const groupChat = await GroupChat.findById(chatId).populate('participants', 'name email _id');
-//       if (!groupChat) {
-//         console.error('Group chat not found');
-//         return;
-//       }
+    // Broadcast message in group or direct chat
+    if (isGroupChat) {
+      const groupChat = await GroupChat.findById(chatId).populate('participants', 'name email _id');
+      if (!groupChat) {
+        console.error('Group chat not found');
+        return;
+      }
 
-//       groupChat.participants.forEach((participant) => {
-//         const participantSocketId = userSockets.get(participant._id.toString());
-//         if (participantSocketId) {
-//           io.to(participantSocketId).emit("message", { chatId, sender, content });
-//         }
-//       });
-//       // groupChat.participants.forEach(participant => {
-//       //   const participantSocket = userSockets.get(participant._id.toString());
-//       //   if (participantSocket && participantSocket.readyState === WebSocket.OPEN) {
-//       //     participantSocket.send(JSON.stringify({ chatId, sender, content }));
-//       //   }
-//       // }
-//       // );
-//     } else {
-//       io.sockets.sockets.forEach(client => {
-//         if (client.id !== socket.id) { // Exclude the sender
-//           client.emit("message", { chatId, sender, content });
-//         }
-//         // if (client !== ws && client.readyState === WebSocket.OPEN) {
-//         //   client.send(JSON.stringify({ chatId, sender, content }));
-//         // }
-//       });
-//     }
+      groupChat.participants.forEach((participant) => {
+        const participantSocketId = userSockets.get(participant._id.toString());
+        if (participantSocketId) {
+          io.to(participantSocketId).emit("message", { chatId, sender, content });
+        }
+      });
+      // groupChat.participants.forEach(participant => {
+      //   const participantSocket = userSockets.get(participant._id.toString());
+      //   if (participantSocket && participantSocket.readyState === WebSocket.OPEN) {
+      //     participantSocket.send(JSON.stringify({ chatId, sender, content }));
+      //   }
+      // }
+      // );
+    } else {
+      io.sockets.sockets.forEach(client => {
+        if (client.id !== socket.id) { // Exclude the sender
+          client.emit("message", { chatId, sender, content });
+        }
+        // if (client !== ws && client.readyState === WebSocket.OPEN) {
+        //   client.send(JSON.stringify({ chatId, sender, content }));
+        // }
+      });
+    }
 
-//     // Broadcast message to all clients
-//     io.emit('receiveMessage', message);
-//   });
+    // Broadcast message to all clients
+    io.emit('receiveMessage', message);
+  });
 
-//   // Handle disconnection
-//   socket.on('disconnect', () => {
-//     console.log('User disconnected:', socket.id);
-//   });
-// });
+  // Handle disconnection
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
 
-// const emailToSocketIdMap = new Map();
-// const socketidToEmailMap = new Map();
+const emailToSocketIdMap = new Map();
+const socketidToEmailMap = new Map();
 
-// io.on("connection", (socket) => {
-//   console.log(`Socket Connected`, socket.id);
-//   socket.on("room:join", (data) => {
-//     console.log("room:join", data);
-//     const { email, room } = data;
-//     emailToSocketIdMap.set(email, socket.id);
-//     socketidToEmailMap.set(socket.id, email);
-//     io.to(room).emit("user:joined", { email, id: socket.id });
-//     socket.join(room);
-//     io.to(socket.id).emit("room:join", data);
-//   });
+io.on("connection", (socket) => {
+  console.log(`Socket Connected`, socket.id);
+  socket.on("room:join", (data) => {
+    console.log("room:join", data);
+    const { email, room } = data;
+    emailToSocketIdMap.set(email, socket.id);
+    socketidToEmailMap.set(socket.id, email);
+    io.to(room).emit("user:joined", { email, id: socket.id });
+    socket.join(room);
+    io.to(socket.id).emit("room:join", data);
+  });
 
-//   socket.on("user:call", ({ to, offer }) => {
-//     io.to(to).emit("incomming:call", { from: socket.id, offer });
-//   });
+  socket.on("user:call", ({ to, offer }) => {
+    io.to(to).emit("incomming:call", { from: socket.id, offer });
+  });
 
-//   socket.on("call:accepted", ({ to, ans }) => {
-//     io.to(to).emit("call:accepted", { from: socket.id, ans });
-//   });
+  socket.on("call:accepted", ({ to, ans }) => {
+    io.to(to).emit("call:accepted", { from: socket.id, ans });
+  });
 
-//   socket.on("peer:nego:needed", ({ to, offer }) => {
-//     console.log("peer:nego:needed", offer);
-//     io.to(to).emit("peer:nego:needed", { from: socket.id, offer });
-//   });
+  socket.on("peer:nego:needed", ({ to, offer }) => {
+    console.log("peer:nego:needed", offer);
+    io.to(to).emit("peer:nego:needed", { from: socket.id, offer });
+  });
 
-//   socket.on("peer:nego:done", ({ to, ans }) => {
-//     console.log("peer:nego:done", ans);
-//     io.to(to).emit("peer:nego:final", { from: socket.id, ans });
-//   });
-// });
+  socket.on("peer:nego:done", ({ to, ans }) => {
+    console.log("peer:nego:done", ans);
+    io.to(to).emit("peer:nego:final", { from: socket.id, ans });
+  });
+});
 
 
 
