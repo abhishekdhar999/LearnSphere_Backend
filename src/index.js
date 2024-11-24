@@ -24,7 +24,7 @@ const server =   app.listen(port, () => {
  console.log("server",server)
 const io = new Server(server, {
   cors: {
-    origin: 'https://learn-sphere-frontend-9omx4f33z-abhishek-dhars-projects.vercel.app', // Allow frontend domain
+    origin: ['https://learn-sphere-frontend-f9igwolcr-abhishek-dhars-projects.vercel.app','https://learn-sphere-frontend.vercel.app/'], // Allow frontend domain
      methods: ["GET", "POST"],
     credentials: true,
   },

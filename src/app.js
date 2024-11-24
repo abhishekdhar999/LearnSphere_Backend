@@ -14,7 +14,7 @@ const app = express();
  
 app.use(cors(
     {
-        origin: ['https://learn-sphere-frontend-9omx4f33z-abhishek-dhars-projects.vercel.app/','http://localhost:3000', 'http://localhost:3001',"https://learnsphere-backend-4.onrender.com","https://learn-sphere-frontend-9omx4f33z-abhishek-dhars-projects.vercel.app/","https://learn-sphere-frontend.vercel.app/"],
+        origin: ['https://learn-sphere-frontend-f9igwolcr-abhishek-dhars-projects.vercel.app','https://learn-sphere-frontend.vercel.app/','https://learn-sphere-frontend-9omx4f33z-abhishek-dhars-projects.vercel.app/','http://localhost:3000', 'http://localhost:3001',"https://learnsphere-backend-4.onrender.com","https://learn-sphere-frontend-9omx4f33z-abhishek-dhars-projects.vercel.app/","https://learn-sphere-frontend.vercel.app/"],
     }
 ));
 
